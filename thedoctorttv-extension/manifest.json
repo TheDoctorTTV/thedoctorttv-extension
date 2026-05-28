@@ -1,0 +1,104 @@
+{
+  "manifest_version": 3,
+  "name": "TheDoctorTTV Extension",
+  "version": "1.0.0",
+  "description": "Combines a DuckDuckGo start page, Ko-fi system theme syncing, Twitch chat message copying, fxtwitter share links, X/Twitter ad blocking, and YouTube Shorts cleanup.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://ko-fi.com/*",
+        "https://www.ko-fi.com/*"
+      ],
+      "js": [
+        "kofi-system-theme.js"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://www.twitch.tv/*",
+        "https://m.twitch.tv/*",
+        "https://player.twitch.tv/*"
+      ],
+      "js": [
+        "twitch-copy-chat.js"
+      ],
+      "css": [
+        "twitch-copy-chat.css"
+      ],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://x.com/*",
+        "https://www.x.com/*",
+        "https://twitter.com/*",
+        "https://www.twitter.com/*",
+        "https://mobile.twitter.com/*"
+      ],
+      "js": [
+        "twitter-fx-share.js"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://x.com/*",
+        "https://www.x.com/*",
+        "https://twitter.com/*",
+        "https://www.twitter.com/*",
+        "https://mobile.twitter.com/*"
+      ],
+      "js": [
+        "twitter-fx-share-main.js"
+      ],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": [
+        "https://x.com/*",
+        "https://www.x.com/*",
+        "https://twitter.com/*",
+        "https://www.twitter.com/*",
+        "https://mobile.twitter.com/*"
+      ],
+      "js": [
+        "twitter-ad-block.js"
+      ],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://www.youtube.com/*"
+      ],
+      "js": [
+        "youtube-hide-shorts.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": [
+    "clipboardWrite",
+    "storage",
+    "tabs"
+  ]
+}

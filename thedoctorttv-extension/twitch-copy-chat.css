@@ -1,0 +1,51 @@
+.tcmc-copy-ready {
+  box-sizing: border-box !important;
+  padding-right: 34px !important;
+  position: relative !important;
+}
+
+.tcmc-copy-button {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 50%;
+  background: #18181b;
+  color: #efeff1;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: none;
+  transition: opacity 120ms ease, background-color 120ms ease, border-color 120ms ease;
+}
+
+.tcmc-copy-button svg {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+}
+
+.tcmc-copy-ready:hover > .tcmc-copy-button,
+.tcmc-copy-button:focus-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.tcmc-copy-button:hover,
+.tcmc-copy-button:focus-visible {
+  border-color: rgba(169, 112, 255, 0.8);
+  background: #5c16c5;
+  outline: none;
+}
+
+.tcmc-copy-button--copied {
+  border-color: rgba(0, 200, 83, 0.8);
+  background: #027a48;
+}

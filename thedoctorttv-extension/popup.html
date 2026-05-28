@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>TheDoctorTTV Extension</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main>
+    <h1>Extension settings</h1>
+    <section class="feature-menu" aria-label="Feature menu">
+      <div class="feature-row">
+        <button class="feature-action" type="button" data-settings-target="new-tab-settings" aria-expanded="false" aria-controls="new-tab-settings">
+          <span>
+            <strong>New tab redirect</strong>
+            <small>Open saved destination</small>
+          </span>
+        </button>
+        <input id="new-tab-enabled" name="new-tab-enabled" type="checkbox" aria-label="Toggle new tab redirect">
+      </div>
+      <div class="feature-row">
+        <button class="feature-action" type="button" data-settings-label="Ko-fi theme sync">
+          <span>
+            <strong>Ko-fi theme sync</strong>
+            <small>Match system theme</small>
+          </span>
+        </button>
+        <input id="kofi-theme-enabled" name="kofi-theme-enabled" type="checkbox" aria-label="Toggle Ko-fi theme sync">
+      </div>
+      <div class="feature-row">
+        <button class="feature-action" type="button" data-settings-label="Twitch chat copy">
+          <span>
+            <strong>Twitch chat copy</strong>
+            <small>Add copy button</small>
+          </span>
+        </button>
+        <input id="twitch-copy-enabled" name="twitch-copy-enabled" type="checkbox" aria-label="Toggle Twitch chat copy">
+      </div>
+      <div class="feature-row">
+        <button class="feature-action" type="button" data-settings-label="X/Twitter fxtwitter links">
+          <span>
+            <strong>X/Twitter fxtwitter links</strong>
+            <small>Rewrite copied share URLs</small>
+          </span>
+        </button>
+        <input id="twitter-fx-share-enabled" name="twitter-fx-share-enabled" type="checkbox" aria-label="Toggle X/Twitter fxtwitter links">
+      </div>
+      <div class="feature-row">
+        <button class="feature-action" type="button" data-settings-label="X/Twitter ad block">
+          <span>
+            <strong>X/Twitter ad block</strong>
+            <small>Hide promoted posts and ads</small>
+          </span>
+        </button>
+        <input id="twitter-ad-block-enabled" name="twitter-ad-block-enabled" type="checkbox" aria-label="Toggle X/Twitter ad block">
+      </div>
+      <div class="feature-row">
+        <button class="feature-action" type="button" data-settings-label="YouTube Shorts cleanup">
+          <span>
+            <strong>YouTube Shorts cleanup</strong>
+            <small>Hide home Shorts and sidebar button</small>
+          </span>
+        </button>
+        <input id="youtube-shorts-cleanup-enabled" name="youtube-shorts-cleanup-enabled" type="checkbox" aria-label="Toggle YouTube Shorts cleanup">
+      </div>
+    </section>
+    <section id="new-tab-settings" class="settings-panel" hidden>
+      <form id="popup-form" novalidate>
+        <label for="new-tab-url">Destination</label>
+        <input id="new-tab-url" name="new-tab-url" type="text" inputmode="url" autocomplete="url" spellcheck="false" required>
+        <div class="actions">
+          <button type="submit">Save</button>
+          <button id="reset-default" type="button">DuckDuckGo</button>
+        </div>
+      </form>
+    </section>
+    <p id="status" role="status" aria-live="polite"></p>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>
