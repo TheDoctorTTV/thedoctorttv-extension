@@ -1,0 +1,32 @@
+# Browser extension package artifacts
+*.crx
+*.pem
+*.zip
+*.xpi
+web-ext-artifacts/
+
+# Local secrets and machine-specific config
+.env
+.env.*
+*.local
+
+# Dependencies and generated output
+node_modules/
+dist/
+build/
+coverage/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+.cache/
+.parcel-cache/
+
+# Editor and OS files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
