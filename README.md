@@ -29,19 +29,3 @@ A chrome extension with some functions TheDoctorTTV needs in chromium browsers:
 
 Click the extension icon to toggle each feature and change the new tab destination.
 The default is `https://start.duckduckgo.com`.
-
-## Pack
-
-From the parent folder:
-
-```sh
-chromium --pack-extension=thedoctorttv-extension
-```
-
-This creates `thedoctorttv-extension.crx` and a matching private key next to the project folder.
-
-For Chrome Web Store submission or source sharing, zip only the extension files:
-
-```sh
-zip -r thedoctorttv-extension-store.zip manifest.json README.md background content popup icons
-```
