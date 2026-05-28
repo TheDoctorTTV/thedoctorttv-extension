@@ -30,3 +30,4 @@ coverage/
 *.swo
 .DS_Store
 Thumbs.db
+.codex/

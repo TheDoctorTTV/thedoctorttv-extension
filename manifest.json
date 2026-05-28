@@ -10,7 +10,7 @@
     "128": "icons/icon128.png"
   },
   "action": {
-    "default_popup": "popup.html",
+    "default_popup": "popup/popup.html",
     "default_icon": {
       "16": "icons/icon16.png",
       "32": "icons/icon32.png",
@@ -19,7 +19,7 @@
     }
   },
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background/background.js"
   },
   "content_scripts": [
     {
@@ -28,7 +28,7 @@
         "https://www.ko-fi.com/*"
       ],
       "js": [
-        "kofi-system-theme.js"
+        "content/kofi-system-theme.js"
       ],
       "run_at": "document_start"
     },
@@ -39,10 +39,10 @@
         "https://player.twitch.tv/*"
       ],
       "js": [
-        "twitch-copy-chat.js"
+        "content/twitch-copy-chat.js"
       ],
       "css": [
-        "twitch-copy-chat.css"
+        "content/twitch-copy-chat.css"
       ],
       "run_at": "document_idle"
     },
@@ -55,7 +55,7 @@
         "https://mobile.twitter.com/*"
       ],
       "js": [
-        "twitter-fx-share.js"
+        "content/twitter-fx-share.js"
       ],
       "run_at": "document_start"
     },
@@ -68,7 +68,7 @@
         "https://mobile.twitter.com/*"
       ],
       "js": [
-        "twitter-fx-share-main.js"
+        "content/twitter-fx-share-main.js"
       ],
       "run_at": "document_start",
       "world": "MAIN"
@@ -82,7 +82,7 @@
         "https://mobile.twitter.com/*"
       ],
       "js": [
-        "twitter-ad-block.js"
+        "content/twitter-ad-block.js"
       ],
       "run_at": "document_idle"
     },
@@ -91,7 +91,7 @@
         "https://www.youtube.com/*"
       ],
       "js": [
-        "youtube-hide-shorts.js"
+        "content/youtube-hide-shorts.js"
       ],
       "run_at": "document_idle"
     }
