@@ -7,12 +7,25 @@
     '[data-test-selector="chat-line-message"]',
     ".chat-line__message"
   ];
-  const MESSAGE_TEXT_SELECTORS = [
+  const MESSAGE_BODY_SELECTORS = [
     '[data-a-target="chat-line-message-body"]',
-    ".chat-line__message-body",
+    ".chat-line__message-body"
+  ];
+  const MESSAGE_FRAGMENT_SELECTORS = [
     '[data-a-target="chat-message-text"]',
-    ".message",
-    ".text-fragment"
+    ".text-fragment",
+    '[data-a-target="emote-name"]',
+    "[data-emote-name]",
+    "[data-emote-code]",
+    '[class*="emote"]',
+    "img[alt]",
+    "img[title]",
+    "img[aria-label]",
+    '[role="img"][aria-label]',
+    ".chat-line__message--emote",
+    ".seventv-chat-emote",
+    ".bttv-emote",
+    ".ffz-emote"
   ];
   const EXCLUDED_SELECTORS = [
     `.${BUTTON_CLASS}`,
@@ -24,10 +37,22 @@
     ".chat-line__username",
     ".chat-badge",
     ".chat-line__timestamp",
+    '[role="dialog"]',
+    '[role="menu"]',
+    "[data-popper-placement]",
+    '[class*="card"]',
+    '[class*="menu"]',
+    '[class*="popover"]',
     "button"
+  ].join(",");
+  const TOOLTIP_SELECTORS = [
+    '[role="tooltip"]',
+    '[class*="tooltip"]'
   ].join(",");
 
   const messageSelector = CHAT_MESSAGE_SELECTORS.join(",");
+  const messageBodySelector = MESSAGE_BODY_SELECTORS.join(",");
+  const messageFragmentSelector = MESSAGE_FRAGMENT_SELECTORS.join(",");
   let enabled = true;
   let observer = null;
 
@@ -47,23 +72,53 @@
   }
 
   function getMessageText(row) {
-    const textTargets = uniqueMessageTargets(
-      MESSAGE_TEXT_SELECTORS.flatMap((selector) => [
-        ...row.querySelectorAll(selector)
-      ]).filter((node) => !node.closest(EXCLUDED_SELECTORS))
-    );
+    const messageBody = row.querySelector(messageBodySelector);
+    const textTargets = [];
 
-    return serializeMessageNodes(textTargets.length > 0 ? textTargets : [row]);
+    if (messageBody && !messageBody.closest(EXCLUDED_SELECTORS)) {
+      textTargets.push(messageBody);
+    }
+
+    textTargets.push(...[
+      ...row.querySelectorAll(messageFragmentSelector)
+    ].filter(isCopyableMessageTarget));
+
+    return serializeMessageNodes(uniqueMessageTargets(textTargets));
+  }
+
+  function isCopyableMessageTarget(node) {
+    return node instanceof Element && !isExcludedMessageElement(node);
+  }
+
+  function isExcludedMessageElement(element) {
+    const excludedElement = element.closest(EXCLUDED_SELECTORS);
+
+    if (excludedElement) {
+      return true;
+    }
+
+    const tooltipElement = element.closest(TOOLTIP_SELECTORS);
+    return Boolean(tooltipElement && !isEmoteElement(element) && !isEmoteElement(tooltipElement));
   }
 
   function uniqueMessageTargets(nodes) {
-    const uniqueNodes = [...new Set(nodes)];
+    const uniqueNodes = [...new Set(nodes)].sort(compareDocumentOrder);
 
     return uniqueNodes.filter((node) => {
       return !uniqueNodes.some((otherNode) => {
         return otherNode !== node && otherNode.contains(node);
       });
     });
+  }
+
+  function compareDocumentOrder(firstNode, secondNode) {
+    if (firstNode === secondNode) {
+      return 0;
+    }
+
+    return firstNode.compareDocumentPosition(secondNode) & Node.DOCUMENT_POSITION_PRECEDING
+      ? 1
+      : -1;
   }
 
   function serializeMessageNodes(nodes) {
@@ -75,7 +130,7 @@
       return node.nodeValue;
     }
 
-    if (!(node instanceof Element) || node.matches(EXCLUDED_SELECTORS)) {
+    if (!(node instanceof Element) || isExcludedMessageElement(node)) {
       return "";
     }
 
@@ -97,17 +152,60 @@
       return "";
     }
 
-    const label = [
+    const label = getEmoteLabelCandidates(element)
+      .map(normalizeEmoteLabel)
+      .find(Boolean);
+
+    return label || "";
+  }
+
+  function getEmoteLabelCandidates(element) {
+    const candidates = [
       element.getAttribute("alt"),
       element.getAttribute("aria-label"),
       element.getAttribute("title"),
       element.getAttribute("data-emote-name"),
+      element.getAttribute("data-emote-code"),
       element.getAttribute("data-name"),
+      element.getAttribute("data-code"),
       element.dataset?.emoteName,
-      element.dataset?.name
-    ].find((value) => value && value.trim());
+      element.dataset?.emoteCode,
+      element.dataset?.name,
+      element.dataset?.code
+    ];
 
-    return label ? label.trim() : "";
+    for (const attribute of element.attributes) {
+      if (/(?:^|-)emote(?:-|$)|(?:^|-)name$|(?:^|-)code$|label$|title$|tooltip$/i.test(attribute.name)) {
+        candidates.push(attribute.value);
+      }
+    }
+
+    return candidates.filter((value) => value && value.trim());
+  }
+
+  function normalizeEmoteLabel(label) {
+    const normalized = label
+      .replace(/\s+/g, " ")
+      .trim()
+      .replace(/^Channel:\s*\S+\s*/i, "")
+      .replace(/^(?:7TV|SevenTV|BTTV|BetterTTV|FFZ|FrankerFaceZ)\s+(?:Channel|Global|Shared)?\s*Emotes?\s*/i, "")
+      .replace(/\s+emote$/i, "")
+      .trim();
+
+    if (!normalized || /^(?:7TV|SevenTV|BTTV|BetterTTV|FFZ|FrankerFaceZ|Channel|Global|Shared|Emotes?)$/i.test(normalized)) {
+      return "";
+    }
+
+    if (/\s/.test(normalized)) {
+      const lastWord = normalized.split(" ").pop();
+      return lastWord && isLikelyEmoteName(lastWord) ? lastWord : "";
+    }
+
+    return normalized;
+  }
+
+  function isLikelyEmoteName(value) {
+    return /^[\w()[\]{}:;~.+-]+$/.test(value);
   }
 
   function isEmoteElement(element) {
@@ -115,6 +213,9 @@
       "img",
       '[data-a-target="emote-name"]',
       "[data-emote-name]",
+      "[data-emote-code]",
+      '[class*="emote"]',
+      '[role="img"][aria-label]',
       ".chat-line__message--emote",
       ".seventv-chat-emote",
       ".bttv-emote",
