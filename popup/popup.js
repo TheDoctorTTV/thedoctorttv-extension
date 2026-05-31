@@ -13,8 +13,8 @@ const form = document.querySelector("#popup-form");
 const input = document.querySelector("#new-tab-url");
 const resetButton = document.querySelector("#reset-default");
 const status = document.querySelector("#status");
-const settingsPanels = document.querySelectorAll(".settings-panel");
-const featureActions = document.querySelectorAll(".feature-action");
+const pages = document.querySelectorAll(".page");
+const pageButtons = document.querySelectorAll("[data-page-target]");
 const featureToggles = {
   newTabEnabled: document.querySelector("#new-tab-enabled"),
   kofiThemeEnabled: document.querySelector("#kofi-theme-enabled"),
@@ -57,37 +57,29 @@ function normalizeUrl(value) {
   return url.href;
 }
 
-function closeSettingsPanels() {
-  settingsPanels.forEach((panel) => {
-    panel.hidden = true;
-  });
+function focusPageStart(page) {
+  const preferredFocus = page.querySelector("#new-tab-url, .back-button, .feature-action");
 
-  featureActions.forEach((action) => {
-    if (action.dataset.settingsTarget) {
-      action.setAttribute("aria-expanded", "false");
-    }
-  });
+  if (preferredFocus) {
+    preferredFocus.focus();
+  }
 }
 
-function openSettingsPanel(panelId, action) {
-  const panel = document.getElementById(panelId);
+function openPage(pageId) {
+  const targetPage = document.getElementById(pageId);
 
-  if (!panel) {
+  if (!targetPage) {
     return;
   }
 
-  const shouldOpen = panel.hidden;
-  closeSettingsPanels();
+  pages.forEach((page) => {
+    page.hidden = page !== targetPage;
+  });
 
-  if (!shouldOpen) {
-    return;
-  }
+  setStatus("");
+  focusPageStart(targetPage);
 
-  panel.hidden = false;
-  action.setAttribute("aria-expanded", "true");
-
-  if (panelId === "new-tab-settings") {
-    input.focus();
+  if (pageId === "new-tab-settings") {
     input.select();
   }
 }
@@ -100,17 +92,9 @@ chrome.storage.sync.get(DEFAULT_SETTINGS, (settings) => {
   }
 });
 
-featureActions.forEach((action) => {
-  action.addEventListener("click", () => {
-    const panelId = action.dataset.settingsTarget;
-
-    if (panelId) {
-      openSettingsPanel(panelId, action);
-      return;
-    }
-
-    closeSettingsPanels();
-    setStatus(`${action.dataset.settingsLabel} has no settings yet`);
+pageButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    openPage(button.dataset.pageTarget);
   });
 });
 
