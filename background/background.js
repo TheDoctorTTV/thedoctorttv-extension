@@ -4,6 +4,7 @@ const DEFAULT_SETTINGS = {
   newTabUrl: DEFAULT_NEW_TAB_URL
 };
 const NEW_TAB_URLS = new Set([
+  "about:home",
   "about:newtab",
   "brave://newtab/",
   "brave://new-tab-page/",
@@ -46,5 +47,5 @@ chrome.tabs.onCreated.addListener((tab) => {
 });
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  redirectNewTab(tabId, changeInfo.url || tab.pendingUrl || tab.url);
+  redirectNewTab(tabId, changeInfo.url);
 });
