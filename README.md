@@ -25,6 +25,18 @@ A chrome extension with some functions TheDoctorTTV needs in chromium browsers:
 3. Choose Load unpacked.
 4. Select this top-level `thedoctorttv-extension` folder, the one containing `manifest.json`.
 
+## Chrome Web Store package
+
+Run:
+
+```sh
+./scripts/package-webstore.sh
+```
+
+Upload the generated zip from `dist/` in the Chrome Developer Dashboard. The zip contains `manifest.json` at the package root and excludes repository metadata.
+
+The extension requests `storage`, `tabs`, and `clipboardWrite` permissions. Permission justification text and privacy answers are in `WEBSTORE_SUBMISSION.md`.
+
 ## Popup
 
 Click the extension icon to toggle each feature and change the new tab destination.
