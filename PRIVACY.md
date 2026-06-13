@@ -9,7 +9,6 @@ The extension reads page content only on the supported sites declared in `manife
 - Ko-fi theme sync
 - Twitch chat copy button
 - X/Twitter share URL rewriting
-- X/Twitter promoted post hiding
 - YouTube Shorts cleanup
 
 Clipboard access is used only for user-initiated copy actions and local share URL rewriting. Clipboard contents are not sent to any server.

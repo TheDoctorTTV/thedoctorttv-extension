@@ -175,12 +175,17 @@
     ];
 
     for (const attribute of element.attributes) {
-      if (/(?:^|-)emote(?:-|$)|(?:^|-)name$|(?:^|-)code$|label$|title$|tooltip$/i.test(attribute.name)) {
+      if (isEmoteLabelAttribute(attribute.name)) {
         candidates.push(attribute.value);
       }
     }
 
     return candidates.filter((value) => value && value.trim());
+  }
+
+  function isEmoteLabelAttribute(attributeName) {
+    return /(?:^|-)emote-(?:name|code)$|(?:^|-)name$|(?:^|-)code$|label$|title$|tooltip$/i.test(attributeName)
+      && !/(?:^|-)id$|uuid|url|src|href/i.test(attributeName);
   }
 
   function normalizeEmoteLabel(label) {
@@ -192,7 +197,11 @@
       .replace(/\s+emote$/i, "")
       .trim();
 
-    if (!normalized || /^(?:7TV|SevenTV|BTTV|BetterTTV|FFZ|FrankerFaceZ|Channel|Global|Shared|Emotes?)$/i.test(normalized)) {
+    if (
+      !normalized
+      || /^(?:7TV|SevenTV|BTTV|BetterTTV|FFZ|FrankerFaceZ|Channel|Global|Shared|Emotes?)$/i.test(normalized)
+      || isLikelyInternalId(normalized)
+    ) {
       return "";
     }
 
@@ -202,6 +211,10 @@
     }
 
     return normalized;
+  }
+
+  function isLikelyInternalId(value) {
+    return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
   }
 
   function isLikelyEmoteName(value) {

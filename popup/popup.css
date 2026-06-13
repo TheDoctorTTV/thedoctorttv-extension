@@ -18,16 +18,16 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --page-bg: #1a141f;
-    --panel-text: #e8edf4;
-    --input-bg: #1f2630;
-    --input-text: #f3f6fa;
-    --border: #465364;
-    --primary: #9f2bca;
-    --primary-hover: #671e98;
-    --secondary-hover: #253140;
-    --row-hover: #202a36;
-    --status: #84d49b;
+    --page-bg: #1b1422;
+    --panel-text: #f1e8f8;
+    --input-bg: #251b2e;
+    --input-text: #fbf6ff;
+    --border: #5a4868;
+    --primary: #b84bdf;
+    --primary-hover: #d06df0;
+    --secondary-hover: #31233d;
+    --row-hover: #2b1f36;
+    --status: #c99cff;
   }
 }
 

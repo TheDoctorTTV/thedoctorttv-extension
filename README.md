@@ -7,7 +7,6 @@ A browser extension with some functions TheDoctorTTV needs in Chrome, Brave, Edg
 - Ko-fi system light or dark theme syncing
 - Twitch chat message copy button
 - fxtwitter link replacement for copied X or Twitter share URLs
-- X or Twitter promoted post and ad hiding
 - YouTube Shorts cleanup for home page, video page, and sidebar
 
 ## Layout

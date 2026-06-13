@@ -4,7 +4,6 @@ const DEFAULT_SETTINGS = {
   kofiThemeEnabled: true,
   twitchCopyEnabled: true,
   twitterFxShareEnabled: true,
-  twitterAdBlockEnabled: true,
   youtubeShortsCleanupEnabled: true,
   newTabUrl: DEFAULT_NEW_TAB_URL
 };
@@ -20,7 +19,6 @@ const featureToggles = {
   kofiThemeEnabled: document.querySelector("#kofi-theme-enabled"),
   twitchCopyEnabled: document.querySelector("#twitch-copy-enabled"),
   twitterFxShareEnabled: document.querySelector("#twitter-fx-share-enabled"),
-  twitterAdBlockEnabled: document.querySelector("#twitter-ad-block-enabled"),
   youtubeShortsCleanupEnabled: document.querySelector("#youtube-shorts-cleanup-enabled")
 };
 

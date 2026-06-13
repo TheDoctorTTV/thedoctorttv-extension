@@ -6,7 +6,7 @@ Quality-of-life browser tools for TheDoctorTTV workflows across new tabs, Ko-fi,
 
 ## Short description
 
-Quality-of-life browser tools for new tabs, Ko-fi themes, Twitch chat copying, X/Twitter shares, promoted posts, and YouTube Shorts.
+Quality-of-life browser tools for new tabs, Ko-fi themes, Twitch chat copying, X/Twitter shares, and YouTube Shorts.
 
 ## Detailed description
 
@@ -16,7 +16,6 @@ TheDoctorTTV Extension adds configurable browser workflow tools:
 - Match Ko-fi to the system light or dark theme.
 - Add a copy button to Twitch chat messages.
 - Rewrite copied X/Twitter share URLs to fxtwitter.com.
-- Hide X/Twitter promoted posts and ads.
 - Hide YouTube Shorts modules on the home page, video page, and sidebar.
 
 All features run locally in the browser. No analytics, tracking, remote code, or external data collection is included.
@@ -35,7 +34,7 @@ All features run locally in the browser. No analytics, tracking, remote code, or
 
 `twitch.tv`, `m.twitch.tv`, `player.twitch.tv`: Adds Twitch chat copy controls.
 
-`x.com`, `twitter.com`, `mobile.twitter.com`: Rewrites copied share URLs and hides promoted posts.
+`x.com`, `twitter.com`, `mobile.twitter.com`: Rewrites copied share URLs.
 
 `youtube.com`: Hides YouTube Shorts modules and navigation entries.
 
